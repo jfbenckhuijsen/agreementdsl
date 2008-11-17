@@ -1,5 +1,6 @@
 package com.atosorigin.nl.agreement.utility;
 
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -19,14 +20,14 @@ import com.atosorigin.nl.agreement.runtime.SimulatorCallback;
  */
 public class Main {
 
-	private static final String REGULAR_PLAN_FILENAME = "../AgreementProject/plans/lowPay.plan";
+	private static final String REGULAR_PLAN_FILENAME = "../agreement-plans/plans/lowPay.plan";
 
-	public static void main (String...args) throws InterruptedException {
+	public static void main (String...args) throws InterruptedException, FileNotFoundException {
 		Main main = new Main();
 		main.execute();
 	}
 
-	public void execute () throws InterruptedException {
+	public void execute () throws InterruptedException, FileNotFoundException {
 		// configure concrete subclasses:
 //		AgreementBuilder builder = new TestAgreementBuilder();
 		AgreementBuilder builder = new AgreementDSLBuilder(REGULAR_PLAN_FILENAME);
