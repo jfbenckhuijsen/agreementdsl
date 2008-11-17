@@ -9,5 +9,12 @@
 -->
 
 <plugin>
+   <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            class="com.atosorigin.nl.dsl.agreement.resource.AgreementResourceFactory"
+            type="plan">
+      </parser>
+   </extension>
 
 </plugin>

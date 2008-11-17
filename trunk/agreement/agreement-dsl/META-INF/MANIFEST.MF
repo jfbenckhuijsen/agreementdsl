@@ -10,5 +10,6 @@ Require-Bundle: org.openarchitectureware.dependencies;bundle-version="4.3.0";vis
  org.openarchitectureware.core.expressions;bundle-version="4.3.0";visibility:=reexport
 Eclipse-LazyStart: true
 Export-Package: com.atosorigin.nl.dsl.agreement,
- com.atosorigin.nl.dsl.agreement.parser
+ com.atosorigin.nl.dsl.agreement.parser,
+ com.atosorigin.nl.dsl.agreement.resource
 Bundle-ClassPath: .
