@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Utility Simulator
+Bundle-SymbolicName: utility-simulator;singleton:=true
+Bundle-Version: 1.0
+Require-Bundle: utility-backend;bundle-version="1.0.0"
+Eclipse-LazyStart: true
+Export-Package: com.atosorigin.nl.agreement.utility,
+ com.atosorigin.nl.agreement.utility.mock
+Bundle-ClassPath: .

@@ -17,6 +17,15 @@
 		<outputDirectory>${basedir}/bin</outputDirectory>
 		<resources>
 		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<pde>true</pde>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
