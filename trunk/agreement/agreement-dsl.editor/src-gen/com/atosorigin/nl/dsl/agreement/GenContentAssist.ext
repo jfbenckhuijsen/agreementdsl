@@ -1,0 +1,167 @@
+import agreement;
+import codeassist;
+
+extension com::atosorigin::nl::dsl::agreement::EditorExtensions;
+
+/* proposals for Feature Date::month */
+List[Proposal] completeDate_month(emf::EObject ctx, String prefix) :
+	{newProposal("DateMonth")};
+
+/* proposals for Feature Date::day */
+List[Proposal] completeDate_day(emf::EObject ctx, String prefix) :
+	{newProposal("DateDay")};
+
+/* proposals for Feature Plan::name */
+List[Proposal] completePlan_name(emf::EObject ctx, String prefix) :
+	{newProposal("PlanName")};
+
+/* proposals for Feature VariableRule::variable */
+List[Proposal] completeVariableRule_variable(emf::EObject ctx, String prefix) :
+	{newProposal("VariableRuleVariable")};
+
+/* proposals for Feature RateDecl::name */
+List[Proposal] completeRateDecl_name(emf::EObject ctx, String prefix) :
+	{newProposal("RateDeclName")};
+
+/* proposals for Feature Date::year */
+List[Proposal] completeDate_year(emf::EObject ctx, String prefix) :
+	{newProposal("DateYear")};
+
+
+
+/* proposals for Feature EventRulesDecl::postingRules */
+List[Proposal] completeEventRulesDecl_postingRules(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature RateDecl::values */
+List[Proposal] completeRateDecl_values(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature ExpressionRule::operator */
+List[Proposal] completeExpressionRule_operator(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature OrComparison::right */
+List[Proposal] completeOrComparison_right(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature IfRule::comparison */
+List[Proposal] completeIfRule_comparison(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature TemporalPostingRule::amountRule */
+List[Proposal] completeTemporalPostingRule_amountRule(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature LiteralRule::value */
+List[Proposal] completeLiteralRule_value(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature Amount::value */
+List[Proposal] completeAmount_value(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature ValueDecl::date */
+List[Proposal] completeValueDecl_date(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature TemporalPostingRule::date */
+List[Proposal] completeTemporalPostingRule_date(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature SimpleComparison::left */
+List[Proposal] completeSimpleComparison_left(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature IfRule::else */
+List[Proposal] completeIfRule_else(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature ExpressionRule::right */
+List[Proposal] completeExpressionRule_right(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature IfRule::then */
+List[Proposal] completeIfRule_then(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature ExpressionRuleParenthesised::expression */
+List[Proposal] completeExpressionRuleParenthesised_expression(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature Plan::eventRules */
+List[Proposal] completePlan_eventRules(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature OrComparison::left */
+List[Proposal] completeOrComparison_left(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature AndComparison::left */
+List[Proposal] completeAndComparison_left(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature Amount::unit */
+List[Proposal] completeAmount_unit(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature ExpressionRule::head */
+List[Proposal] completeExpressionRule_head(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature TemporalPostingRule::account */
+List[Proposal] completeTemporalPostingRule_account(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature SimpleComparison::right */
+List[Proposal] completeSimpleComparison_right(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature SimpleComparison::operator */
+List[Proposal] completeSimpleComparison_operator(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature AndComparison::right */
+List[Proposal] completeAndComparison_right(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature EventRulesDecl::type */
+List[Proposal] completeEventRulesDecl_type(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature Plan::rates */
+List[Proposal] completePlan_rates(emf::EObject ctx, String prefix) :
+	{};
+
+/* proposals for Feature ValueDecl::amount */
+List[Proposal] completeValueDecl_amount(emf::EObject ctx, String prefix) :
+	{};
+
+
+
+
+
+
+List[Proposal] sortProposals(List[Proposal] proposalsToSort):
+	proposalsToSort;
+
+isKeywordProposal(Proposal this):
+	type == codeassist::Type::KEYWORD;
+
+isAssignmentProposal(Proposal this):
+	type == codeassist::Type::ASSIGNMENT;
+	
+isEnumProposal(Proposal this):
+	type == codeassist::Type::ENUM_LITERAL;
+
+// create extensions
+Proposal newProposal(String proposal) :
+	newProposal(proposal,proposal);
+	
+Proposal newProposal(String label, String toReplace) :
+	newProposal(label,toReplace,"default.gif");
+	
+create Proposal newProposal(String label, String replace, String image) :
+	setLabel(label==null?"ERROR":label)->
+	setToInsert(replace==null?"ERROR":replace)->
+	setImage(image);
