@@ -9,3 +9,4 @@ Export-Package: com.atosorigin.nl.dsl.agreement,
  com.atosorigin.nl.dsl.agreement.handler,
  com.atosorigin.nl.dsl.agreement.impl,
  com.atosorigin.nl.dsl.agreement.util
+Bundle-ClassPath: .
