@@ -1,0 +1,24 @@
+import agreement;
+
+extension com::atosorigin::nl::dsl::agreement::Extensions reexport;
+
+
+String label (RateDecl rd) : rd.name;
+String label (EventRulesDecl erd) : erd.type;
+String label (ValueDecl vd) : "value " + vd.amount.asString() + " on " + vd.date.asString();
+String label (TemporalPostingRule tpr) :
+	"postingRule, account=" + tpr.account + " on " + tpr.date.asString();
+
+// fallbacks:
+
+String label (Object o) :
+	let nameProp = o.metaType.getProperty( "name" ) :
+	( nameProp == null ) ? null : nameProp.get(o);
+
+String label (emf::EObject o) :
+	let nameProp = o.metaType.getProperty( "name" ) :
+	( nameProp == null ) ? null : nameProp.get(o);
+
+String image (Object o) : "default.gif";
+String image (emf::EObject o) : "default.gif";
+

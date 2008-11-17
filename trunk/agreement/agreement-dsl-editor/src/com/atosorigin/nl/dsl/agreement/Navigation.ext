@@ -1,0 +1,17 @@
+import agreement;
+
+extension org::openarchitectureware::util::stdlib::io;
+extension com::atosorigin::nl::dsl::agreement::Extensions;
+extension com::atosorigin::nl::dsl::agreement::GenExtensions;
+extension com::atosorigin::nl::dsl::agreement::GenNavigation reexport;
+
+emf::EObject findDeclaration (String s, xtext::Assignment ass, RateDecl rd) :
+	null;
+
+/*
+ * overwrite the extensions
+ * ''emf::EObject findDeclaration(String,Object,Object)''
+ * ''List[emf::EObject] findReferences(String,Object,Object)''
+ * from com::atosorigin::nl::dsl::agreement::GenNavigation.ext to control the construction of the findReferences / findDeclaration actions
+ */
+

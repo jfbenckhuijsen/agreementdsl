@@ -1,0 +1,16 @@
+<workflow>
+<property name='targetDir' value='src-gen/'/>
+  <bean id='mm' file='com/atosorigin/nl/dsl/agreement/Metamodel.oaw'/>
+  <component file='com/atosorigin/nl/dsl/agreement/parser/Parser.oaw'>
+    <metaModel idRef='mm'/>
+    <modelFile value='${modelFile}'/>
+    <outputSlot value='theModel'/>
+  </component>
+  <component class='oaw.workflow.common.DirectoryCleaner' directories='${targetDir}'/>
+  <component class='oaw.xpand2.Generator'>
+     <metaModel idRef='mm'/>
+     <expand value='com::atosorigin::nl::dsl::agreement::Main::main FOR theModel'/>
+     <genPath value='${targetDir}'/>
+     <fileEncoding value='iso-8859-1'/>
+  </component>
+</workflow>
