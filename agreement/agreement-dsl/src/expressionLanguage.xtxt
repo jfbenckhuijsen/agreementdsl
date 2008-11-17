@@ -1,0 +1,21 @@
+// The following grammar is NOT left-factored, so doesn't work in xText.
+// It is persisted purely for reference purposes.
+
+ExpressionRule:
+	LiteralRule | VariableRule | CompoundExpressionRule | ( "(" ExpressionRule ")" ) ;
+
+LiteralRule:
+	value=Amount;
+
+VariableRule:
+	variable=ID;
+
+CompoundExpressionRule:
+	leftExpression=ExpressionRule operator=Operator rightExpression=ExpressionRule;
+
+Enum Comparator:
+	Less="<" | More=">" | LessEqual="<=" | MoreEqual=">=" | Equal="="; 
+
+Enum Operator:
+	Add="+" | Substract="-" | Multiply="*" | Divide = "/";
+

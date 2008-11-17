@@ -1,0 +1,24 @@
+// The following grammar is NOT left-factored, so doesn't work in xText.
+// It is persisted purely for reference purposes.
+
+IfRule:
+	"IF" "(" comparison=Comparison "," then=ExpressionRule "," else=ExpressionRule ")";	
+
+Comparison:
+	CompoundComparison | SimpleComparison;
+
+CompoundComparison:
+	AndComparison | OrComparison;
+
+AndComparison:
+	left=SimpleComparison "&" right=SimpleComparison;
+
+OrComparison:
+	left=SimpleComparison "|" right=SimpleComparison;
+
+SimpleComparison:
+	left=ID operator=Comparator right=ID;
+
+Enum Comparator:
+	Less="<" | More=">" | LessEqual="<=" | MoreEqual=">=" | Equal="="; 
+

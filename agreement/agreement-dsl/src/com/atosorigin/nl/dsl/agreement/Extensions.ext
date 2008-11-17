@@ -1,0 +1,26 @@
+import agreement;
+
+extension com::atosorigin::nl::dsl::agreement::GenExtensions reexport;
+
+
+Boolean validMonthNr (Date date) : ( 1 <= date.month ) && ( date.month <= 12 );
+
+int monthNr2nDays (int monthNr, int year) :
+	JAVA com.atosorigin.nl.dsl.agreement.DateHelper.monthNr2nDays(java.lang.Integer, java.lang.Integer);
+
+String asString (Date date) : date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString();
+
+String asString (Amount amount) :
+	amount.value + ( ( amount.unit == null ) ? "" : ( " [" + amount.unit + "]" ) );
+
+Plan getPlan (Object o) : (Plan) ((emf::EObject) o).eRootContainer;
+
+// determines what variable names are correct in a given context:
+Set[String] validVariables (EventType t) :
+	switch( t ) {
+		case EventType::Usage : { "usage" }
+		case EventType::ServiceCall : { "fee" }
+		case EventType::Tax : { "fee" }
+		default : { }
+	};
+

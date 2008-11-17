@@ -1,0 +1,24 @@
+import agreement;
+
+extension com::atosorigin::nl::dsl::agreement::Extensions;
+/*
+ * This check file is used by the parser
+ * and by the editor. Add your constraints here!
+ */
+
+context Plan ERROR "plan " + this.name + " must have events" : this.eventRules.size > 0;
+
+context RateDecl ERROR "rate " + this.name + " must have values" : this.values.size > 0;
+
+context Date ERROR "invalid month in date: " + this.month : validMonthNr();
+
+context Date if validMonthNr() ERROR "invalid day in date: " + this.day :
+	( 1 <= this.day ) && ( this.day <= monthNr2nDays(this.month, this.year) );
+
+context Date ERROR "invalid year in date: " + this.year : this.year > 0;
+
+context EventRulesDecl ERROR "no posting rules declared for event of type " + this.type : this.postingRules.size > 0;
+
+//context VariableRule WARNING "Are you sure " + this.variable + " is a valid variable?" :
+//   { "fee", "usage", this.getPlan().rates.name }.contains(this.variable);
+
