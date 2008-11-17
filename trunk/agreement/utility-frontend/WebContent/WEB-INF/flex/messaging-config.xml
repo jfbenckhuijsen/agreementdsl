@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="message-service"
+	class="flex.messaging.services.MessageService">
+
+	<adapters>
+		<adapter-definition id="actionscript"
+			class="flex.messaging.services.messaging.adapters.ActionScriptAdapter"
+			default="true" />
+		<!-- <adapter-definition id="jms" class="flex.messaging.services.messaging.adapters.JMSAdapter"/> -->
+	</adapters>
+
+	<default-channels>
+		<channel ref="my-amf" />
+	</default-channels>
+
+	<destination id="dateUpdate">
+		<properties>
+			<network>
+				<session-timeout>0</session-timeout>
+				<throttle-inbound policy="ERROR" max-frequency="50" />
+				<throttle-outbound policy="REPLACE" max-frequency="500" />
+			</network>
+			<server>
+				<durable>false</durable>
+			</server>
+		</properties>
+		<channels>
+			<channel ref="my-amf" />
+		</channels>
+	</destination>
+
+	<destination id="customerUpdate">
+		<properties>
+			<network>
+				<session-timeout>0</session-timeout>
+				<throttle-inbound policy="ERROR" max-frequency="50" />
+				<throttle-outbound policy="REPLACE" max-frequency="500" />
+			</network>
+			<server>
+				<durable>false</durable>
+			</server>
+		</properties>
+		<channels>
+			<channel ref="my-amf" />
+		</channels>
+	</destination>
+</service>

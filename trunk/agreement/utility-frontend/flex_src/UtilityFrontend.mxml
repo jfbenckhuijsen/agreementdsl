@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="1000" height="700" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.containers.Canvas;
+			import mx.messaging.events.MessageEvent;
+			import mx.rpc.AbstractOperation;
+			import mx.rpc.remoting.Operation;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Label;
+			import mx.containers.Panel;
+			import mx.collections.ArrayCollection;
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+			import com.atosorigin.nl.jspring2008.xtext.transfer.Customer;
+			
+			[Bindable]
+			private var journal : ArrayCollection;
+			[Bindable]
+			private var plans : ArrayCollection;
+
+			[Bindable]
+			public var g_HostString:String;
+			[Bindable]
+			public var g_ContextRoot:String;
+			[Bindable]
+			public var g_BaseURL:String;
+  
+			private function getHostName():void {
+				g_BaseURL = Application.application.url;
+				var pattern1:RegExp = new RegExp("http://[^/]*/");
+				if (pattern1.test(g_BaseURL) == true) {
+					g_HostString = pattern1.exec(g_BaseURL).toString();
+				} else{
+					g_HostString = "http://localhost/"
+				}   
+			}
+			  			
+			private var customerImages : Array = new Array();
+			private var fileRef:FileReference;
+			
+			private function onEngineClick ( event : MouseEvent) : void {
+				fileRef = new FileReference();
+        		fileRef.addEventListener(Event.SELECT, fileSelectHandler);
+        		fileRef.addEventListener(Event.COMPLETE, fileCompleteHandler);
+        		fileRef.addEventListener(IOErrorEvent.IO_ERROR, fileError);
+                try
+				{
+				    var success:Boolean = fileRef.browse();
+				}
+				catch (error:Error)
+				{
+				    trace("Unable to browse for files.");
+				}
+			}
+			
+			private function fileSelectHandler (event : Event) : void {
+				var request : URLRequest = new URLRequest(g_HostString + "UtilityFrontend" + "/planupload");
+				try
+			    {
+			        event.currentTarget.upload(request);
+			    }
+			    catch (error:Error)
+			    {
+			        trace("Unable to upload file.");
+			    }
+			}
+			
+			private function fileError (event : ErrorEvent) : void {
+				Alert.show(event.text);
+			}
+			
+			private function fileCompleteHandler (event : Event) : void {
+				var call:Object = UtilityService.listplans();
+				call.marker = "updatePlanList";
+			}
+			
+			private function onMainframeClick (event : MouseEvent) : void {
+				var call:Object = UtilityService.startSimulator();
+				call.marker = "toggleSimulator";
+			}
+			
+			private function onSelectPlan (event : Event) : void {
+				UtilityService.setPlanForCustomer(event.currentTarget.selectedItem);
+			}
+			
+			private function addPlan (event : Event) : void {
+				var call : Object = UtilityService.addPlan(newPlan.text);
+				call.marker = "addPlan";
+				newPlan.text = "";
+			}
+			
+			private function onCustomerActivate (event : MouseEvent) : void {
+				var image : Image = event.currentTarget as Image;
+				
+				var customerName : String = image.name;
+				var call:Object = UtilityService.selectCustomer(customerName);
+				call.marker = "selectCustomer";
+				
+				planList.selectedIndex = -1;
+			}
+			
+			private function init (): void {
+				getHostName();
+
+				var call : Object = UtilityService.listCustomers();
+				call.marker = "listCustomer";
+				
+				call = UtilityService.listplans();
+				call.marker = "updatePlanList";
+				
+				updateDateConsumer.subscribe();
+				updateCustomerComsumer.subscribe();
+			}
+			
+			// RemoteObject callbacks
+			private function utilityServiceResult (event : ResultEvent) : void {
+				var call:Object = event.token;
+				if (call.marker == "listCustomer") {
+					updateCustomerList(event);
+				} else if (call.marker == "selectCustomer") {
+					updateJournal(event);
+				} else if (call.marker == "updatePlanList") {
+					updatePlanList(event)
+				} else if (call.marker == "toggleSimulator") {
+					toggledSimulator(event);
+				} else if (call.marker == "addPlan") {
+					updatePlanList(event);
+				}
+			}
+			
+			private function updateCustomerList (event : ResultEvent): void {
+				var customers : Array;
+				customers = event.result as Array;
+				customerList.removeAllChildren();
+				for each (var customer:Customer in customers) {
+					var vbox:VBox = new VBox();
+					
+					var image: Image = new Image();
+					image.source = "photos/" + customer.photo;
+					image.height = 80;
+					image.scaleContent = true;
+					image.name = customer.name;
+					image.addEventListener(MouseEvent.CLICK, onCustomerActivate);
+					
+					var name : Label = new Label();
+					name.text = customer.name;
+					
+					vbox.addChild(image);
+					vbox.addChild(name);
+					
+					customerImages[customer.name] = image;
+					
+					customerList.addChild(vbox);
+				}
+			}
+			
+			private function updateJournal (event : ResultEvent) : void {
+				var journalAr : Array;
+				journalAr = event.result as Array;
+				journal = new ArrayCollection(journalAr);
+			}
+			
+			private function updatePlanList (event : ResultEvent) : void {
+				plans = new ArrayCollection(event.result as Array);
+			}
+			
+			private function toggledSimulator (event : ResultEvent) : void {
+				Alert.show(event.result as String);	
+			}
+			
+			// Messaging callbacks
+			private function updateCurrentDate ( event : MessageEvent) : void {
+				var cureDate : Date = event.message.body as Date;
+			}
+			
+			private function updateCustomer ( event : MessageEvent) :void {
+				journal = new ArrayCollection(event.message.body as Array);
+			}
+		]]>
+	</mx:Script>
+
+	<mx:RemoteObject destination="UtilityService" id="UtilityService" result="utilityServiceResult(event)"/>
+	<mx:Consumer id="updateDateConsumer" destination="dateUpdate" message="updateCurrentDate(event)"/>
+	<mx:Consumer id="updateCustomerComsumer" destination="customerUpdate" message="updateCustomer(event)"/>
+	
+	<mx:VBox width="100%">
+		<mx:HBox width="100%">
+			<mx:Panel title="Customers">
+				<mx:VBox id="customerList" autoLayout="true" height="100%"/>
+			</mx:Panel>
+			<mx:Panel title="Journal" width="100%" height="100%">
+				<mx:DataGrid dataProvider="{journal}" width="100%" height="100%">
+					<mx:columns>
+						<mx:DataGridColumn dataField="account" headerText="Account"/>
+						<mx:DataGridColumn dataField="occured" headerText="Date"/>
+						<mx:DataGridColumn dataField="amount" headerText="Amount"/>
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:Panel>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%">
+			<mx:Panel width="40%" height="100%" title="Controls">
+				<mx:HBox height="100%">
+					<mx:Image 
+						source="images/ibm-mainframe.png" 
+						height="150" 
+						scaleContent="true"
+						click="onMainframeClick(event)"/>
+					<mx:Image id="engine" 
+						source="images/engine.png" 
+						height="150" 
+						scaleContent="true" 
+						click="onEngineClick(event)"/>
+				</mx:HBox>
+			</mx:Panel>
+			
+			<mx:Panel title="Plans" width="100%">
+				<mx:HBox width="100%">
+					<mx:VBox height="100%" width="100%">
+						<mx:TextArea id="newPlan" height="100%"/>
+						<mx:Button click="addPlan(event)" label="Add"/>	
+					</mx:VBox>
+					<mx:List id="planList" dataProvider="{plans}" change="onSelectPlan(event)"/>				
+				</mx:HBox>
+			</mx:Panel>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Application>
