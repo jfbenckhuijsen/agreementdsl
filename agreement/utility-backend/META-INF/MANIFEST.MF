@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Utility Backend
+Bundle-Name: Utility Simulator Backend
 Bundle-SymbolicName: utility-backend;singleton:=true
 Bundle-Version: 1.0
-Require-Bundle: agreement-dsl
+Require-Bundle: agreement-dsl,
+ agreement-plans;bundle-version="1.0.0"
 Eclipse-LazyStart: true
 Export-Package: com.atosorigin.nl.agreement.dispatcher,
  com.atosorigin.nl.agreement.dsl,
@@ -13,3 +14,4 @@ Export-Package: com.atosorigin.nl.agreement.dispatcher,
  com.atosorigin.nl.agreement.utility,
  com.atosorigin.nl.agreement.utility.events,
  com.atosorigin.nl.agreement.utility.rules
+Bundle-ClassPath: .
