@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Agreement DSL
 Bundle-SymbolicName: agreement-dsl;singleton:=true
 Bundle-Version: 1.0
-Require-Bundle: org.openarchitectureware.dependencies;visibility:=reexport,
+Require-Bundle: org.openarchitectureware.dependencies;bundle-version="4.3.0";visibility:=reexport,
  org.antlr;visibility:=reexport,
- org.openarchitectureware.xtext.core.base;visibility:=reexport,
- org.openarchitectureware.xtext.generator,
- org.openarchitectureware.core.expressions;visibility:=reexport
+ org.openarchitectureware.xtext.core.base;bundle-version="4.3.0";visibility:=reexport,
+ org.openarchitectureware.xtext.generator;bundle-version="4.3.0",
+ org.openarchitectureware.core.expressions;bundle-version="4.3.0";visibility:=reexport
 Eclipse-LazyStart: true
 Export-Package: com.atosorigin.nl.dsl.agreement,
  com.atosorigin.nl.dsl.agreement.parser
