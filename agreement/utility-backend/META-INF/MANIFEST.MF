@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Utility Backend
+Bundle-SymbolicName: utility-backend;singleton:=true
+Bundle-Version: 1.0
+Require-Bundle: agreement-dsl
+Eclipse-LazyStart: true
+Export-Package: com.atosorigin.nl.agreement.dispatcher,
+ com.atosorigin.nl.agreement.dsl,
+ com.atosorigin.nl.agreement.events,
+ com.atosorigin.nl.agreement.runtime,
+ com.atosorigin.nl.agreement.temporal,
+ com.atosorigin.nl.agreement.utility,
+ com.atosorigin.nl.agreement.utility.events,
+ com.atosorigin.nl.agreement.utility.rules
