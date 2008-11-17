@@ -4,6 +4,7 @@ Bundle-Name: Agreement DSL Editor
 Bundle-SymbolicName: agreement-dsl-editor;singleton:=true
 Bundle-Version: 1.0
 Bundle-Activator: com.atosorigin.nl.dsl.agreement.AgreementEditorPlugin
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,
@@ -14,8 +15,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.openarchitectureware.xtext.editor.base;bundle-version="4.3.0",
  agreement-dsl
-Eclipse-LazyStart: true
 Export-Package: com.atosorigin.nl.dsl.agreement,
  com.atosorigin.nl.dsl.agreement.editor,
  com.atosorigin.nl.dsl.agreement.wizards
 Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

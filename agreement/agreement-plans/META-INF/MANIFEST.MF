@@ -10,3 +10,4 @@ Export-Package: com.atosorigin.nl.dsl.agreement,
  com.atosorigin.nl.dsl.agreement.impl,
  com.atosorigin.nl.dsl.agreement.util
 Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

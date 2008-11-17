@@ -3,9 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Utility Simulator Backend
 Bundle-SymbolicName: utility-backend;singleton:=true
 Bundle-Version: 1.0
+Bundle-ActivationPolicy: lazy
 Require-Bundle: agreement-dsl,
  agreement-plans;bundle-version="1.0.0"
-Eclipse-LazyStart: true
 Export-Package: com.atosorigin.nl.agreement.dispatcher,
  com.atosorigin.nl.agreement.dsl,
  com.atosorigin.nl.agreement.events,
@@ -15,3 +15,4 @@ Export-Package: com.atosorigin.nl.agreement.dispatcher,
  com.atosorigin.nl.agreement.utility.events,
  com.atosorigin.nl.agreement.utility.rules
 Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
