@@ -1,5 +1,7 @@
 package com.atosorigin.nl.agreement.dsl;
 
+import java.io.FileNotFoundException;
+
 import com.atosorigin.nl.agreement.dispatcher.Agreement;
 import com.atosorigin.nl.agreement.runtime.AgreementBuilder;
 import com.atosorigin.nl.dsl.agreement.Plan;
@@ -19,9 +21,10 @@ public class AgreementDSLBuilder implements AgreementBuilder {
 
 	/**
 	 * @param planPath
+	 * @throws FileNotFoundException 
 	 */
-	public AgreementDSLBuilder(String planPath) {
-		this.plan = new PlanReader ( planPath ).getPlan();
+	public AgreementDSLBuilder(String planPath) throws FileNotFoundException {
+		this.plan = new PlanReader(planPath).getPlan();
 	}
 	
 	/**

@@ -11,6 +11,10 @@ import com.atosorigin.nl.agreement.temporal.TemporalObject;
  */
 public abstract class AccountingEvent implements Serializable, Event {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7266327628478785177L;
 	private String type;
 	private Customer customer;
 	private Date occured;
