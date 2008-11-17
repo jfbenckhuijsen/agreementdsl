@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.atosorigin.nl.dsl</groupId>
+	<artifactId>agreement</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>Agreement DSL Project</name>
+	
+	<modules>
+		<module>agreement-dsl</module>
+		<module>agreement-dsl-editor</module>
+		<module>agreement-dsl-generator</module>
+		<module>agreement-parent</module>
+		<module>agreement-plans</module>
+		<module>utility-backend</module>
+		<module>utility-frontend</module>
+		<module>utility-simulator</module>
+	</modules>
+
+</project>
