@@ -3,8 +3,8 @@
  */
 package com.atosorigin.nl.jspring2008.xtext.services;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,9 +91,9 @@ public class UtilityService {
 	 * @return
 	 */
 	public String[] addPlan (String planText) {
-		StringReader reader = new StringReader(planText);
+		ByteArrayInputStream in = new ByteArrayInputStream(planText.getBytes());
 		try {
-			PlanStore.getInstance().storePlan(reader);
+			PlanStore.getInstance().storePlan(in);
 			return listPlans();
 		} catch (IOException e) {
 			return new String[0];

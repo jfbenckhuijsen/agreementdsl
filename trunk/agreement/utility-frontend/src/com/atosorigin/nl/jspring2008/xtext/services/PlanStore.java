@@ -4,7 +4,7 @@
 package com.atosorigin.nl.jspring2008.xtext.services;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,8 +41,8 @@ public class PlanStore {
 	 * @param reader
 	 * @throws IOException 
 	 */
-	public void storePlan (Reader reader) throws IOException {
-		PlanReader planReader = new PlanReader(reader);
+	public void storePlan (InputStream in) throws IOException {
+		PlanReader planReader = new PlanReader(in);
 		Plan plan = planReader.getPlan();
 		if (plan.getName() != null) {
 			plans.put(plan.getName(), plan);
