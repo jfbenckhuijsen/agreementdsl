@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Utility Frontend
+Bundle-SymbolicName: utility-frontend;singleton:=true
+Bundle-Version: 1.0
+Require-Bundle: utility-backend,
+ agreement-plans,
+ agreement-dsl
+Eclipse-LazyStart: true
