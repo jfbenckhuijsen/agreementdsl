@@ -1,0 +1,30 @@
+/*
+	Plan taken and adapted from Martin Fowler's Web article
+	"A Language Workbench in Action - MPS":
+	http://martinfowler.com/articles/mpsAgree.html
+*/
+
+plan Regular
+
+	rate BASE_RATE
+		1999 - 10 - 12 : 10.0 [USD/KwH]
+		1999 - 12 - 01 : 12.0 [USD/KwH]
+
+	event USAGE
+		1999 - 10 - 01 : amount  : BASE_RATE * usage
+						 account : base-usage
+
+	event SERVICE_CALL
+		1999 - 10 - 01 : amount  : fee * 0.5 + 10.0 [USD]
+						 account : service
+		1999 - 12 - 01 : amount  : fee * 0.5 + 15.0 [USD]
+						 account : service
+
+	event TAX
+		1999 - 10 - 01 : amount  : fee * 0.055
+						 account : tax
+
+	event USAGE
+		1999 - 12 - 31 : amount : IF usage < 20.0 THEN usage * 0.031 ELSE 10.0
+						 account : base-usage
+
