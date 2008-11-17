@@ -11,3 +11,4 @@ Require-Bundle: org.openarchitectureware.xtext.core,
  org.openarchitectureware.dependencies,
  agreement-dsl
 Export-Package: com.atosorigin.nl.dsl.agreement
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

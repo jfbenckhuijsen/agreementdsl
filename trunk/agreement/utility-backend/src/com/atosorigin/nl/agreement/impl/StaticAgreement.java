@@ -12,8 +12,6 @@ import java.util.Set;
 import com.atosorigin.nl.agreement.dispatcher.Agreement;
 import com.atosorigin.nl.agreement.dispatcher.PostingRule;
 import com.atosorigin.nl.agreement.temporal.TemporalObject;
-import com.atosorigin.nl.dsl.agreement.EventRulesDecl;
-import com.atosorigin.nl.dsl.agreement.TemporalPostingRule;
 
 /**
  * @author a108600
