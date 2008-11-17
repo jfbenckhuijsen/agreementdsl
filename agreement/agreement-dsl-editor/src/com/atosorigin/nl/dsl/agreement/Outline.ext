@@ -1,0 +1,42 @@
+import agreement;
+import tree;
+
+extension com::atosorigin::nl::dsl::agreement::EditorExtensions;
+extension com::atosorigin::nl::dsl::agreement::Extensions;
+
+create UIContentNode outlineTree (Plan plan) :
+	setContext( plan )
+ ->	children.add( plan.outlineTreeSingle() )
+ -> children.addAll( plan.rates.outlineTree() )
+ -> children.addAll( plan.eventRules.outlineTree() )
+ ;
+
+create UIContentNode outlineTreeInner (Plan plan) :
+	setLabel( "plan " + plan.name )
+ ->	setImage( "default.gif" )
+ ->	setContext( plan )
+ ->	children.addAll( plan.rates.outlineTree() )
+ ->	children.addAll( plan.eventRules.outlineTree() )
+ ;
+
+create UIContentNode outlineTreeSingle (Plan plan) :
+	setLabel( "plan " + plan.name )
+ -> setImage( "keyword.gif" )
+ -> setContext( plan );
+
+create UIContentNode outlineTree (RateDecl rateDecl) :
+	setLabel( "rate " + rateDecl.name )
+ ->	setImage( "default.gif" )
+ ->	children.addAll( rateDecl.values.outlineTree() );
+
+create UIContentNode outlineTree (EventRulesDecl e) :
+	setLabel( "event " + e.type )
+ ->	setImage( "default.gif" )
+ ->	children.addAll( e.postingRules.outlineTree() );
+
+create UIContentNode outlineTree (ValueDecl vd) :
+	setLabel( "value " + vd.amount.asString() + " on " + vd.date.asString() );
+
+create UIContentNode outlineTree (TemporalPostingRule tpr) :
+	setLabel( "postingRule, account=" + tpr.account + " on " + tpr.date.asString() );
+
