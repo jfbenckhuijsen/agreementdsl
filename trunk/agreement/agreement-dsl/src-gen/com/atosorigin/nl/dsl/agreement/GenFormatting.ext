@@ -1,0 +1,10 @@
+import agreement;
+import org::openarchitectureware::xtext::resource::AbstractXtextResource;
+
+extension com::atosorigin::nl::dsl::agreement::Extensions;
+
+String format(List[emf::EObject] this) :
+	JAVA org.openarchitectureware.xtext.resource.AbstractXtextResource.throwNoFormatterException();
+
+String NL() : "\n";
+String TAB() : "\t";

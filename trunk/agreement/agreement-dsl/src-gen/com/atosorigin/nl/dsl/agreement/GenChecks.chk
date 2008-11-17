@@ -1,0 +1,13 @@
+import agreement;
+
+extension org::openarchitectureware::xtext::parser::LinkerUtils;
+
+extension com::atosorigin::nl::dsl::agreement::Extensions;
+
+/*
+ * check linking
+ */
+
+
+
+

@@ -1,0 +1,12 @@
+
+extension com::atosorigin::nl::dsl::agreement::Extensions;
+extension com::atosorigin::nl::dsl::agreement::Linking;
+
+link(emf::EObject this) :
+	this.allVisibleElements().internalLink();
+
+private Void internalLink(emf::EObject this) :
+	null;
+
+
+
