@@ -1,0 +1,9 @@
+import agreement;
+
+extension com::atosorigin::nl::dsl::agreement::Extensions;
+extension com::atosorigin::nl::dsl::agreement::GenLinking reexport;
+
+/*
+ * If you need more sophisticated linking semantic just overwrite the linking extensions here and add your own logic.
+ * Have a look at the generated com::atosorigin::nl::dsl::agreement::GenLinking (typically located in src-gen)
+ */

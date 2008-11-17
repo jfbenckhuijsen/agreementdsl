@@ -1,0 +1,132 @@
+/*
+ * xText grammar for Martin Fowler's Agreement DSL,
+ * taken from Martin Fowler's Web article
+ * "A Language Workbench in Action - MPS"
+ * (http://martinfowler.com/articles/mpsAgree.html).
+ */
+
+
+// definition of the basic structure:
+
+Plan:
+	"plan" name=ID						// main container
+	(rates += RateDecl)*				// temporal values, act as local constants
+	(eventRules += EventRulesDecl)*;	// declaration of temporal rules
+
+RateDecl:
+	"rate" name=ID
+	(values += ValueDecl)*;		// temporal property
+
+ValueDecl:
+	date=Date ":" amount=Amount;
+
+EventRulesDecl:
+	"event" type=EventType
+	(postingRules += TemporalPostingRule)*;	// an "event" block has a number of temporal posting rules
+
+TemporalPostingRule:
+	date=Date ":"
+	"amount" ":" amountRule=AmountRule
+	"account" ":" account=AccountName;
+
+
+// definition of the simple types:
+
+Amount:
+	value=Double ("[" unit=Unit "]")?;
+	// TODO may be add some currency parsing here?
+
+String Double:
+	INT ("." INT)?;
+
+String Unit:
+	ID ("/" ID)*;
+
+Enum EventType:
+	Usage="USAGE" | ServiceCall="SERVICE_CALL" | Tax="TAX";	
+
+Date:
+	(year=INT)"-"(month=INT)"-"(day=INT);
+// Unfortunately, we have to write dates now as "1999 - 10 - 01" or "1999- 10- 01" instead of "1999-10-01"...
+// Could use custom lexer rule, but then have to do the parsing and validation ourselves...
+
+Enum AccountName:
+	BaseUsage="base-usage" | Service="service" | Tax="tax";
+
+
+// definition of the formula language:
+
+AmountRule:
+	IfRule | ExpressionRule;
+// A temporal posting rule is either a direct expression or a conditional one.
+
+// the simple part of the grammar, common to both the conditional and expression part:
+
+SingleTermRule:
+	LiteralRule | VariableRule;
+
+LiteralRule:
+	value=Amount;
+
+VariableRule:
+	variable=ID;
+
+/*
+	BUT, really would like:
+
+VariableRule:
+	PredefinedVariable | RateVariable;
+
+Enum PredefinedVariable:
+	Usage="usage" | CallDuration="call-duration";
+
+//AnyVariable:
+//	variable=ID;
+
+RateVariable:
+	rate=[RateDecl|ID];
+ */
+
+
+// the expression part:
+
+ExpressionRule:
+	head=ExpressionRuleHead (operator=Operator right=ExpressionRule)?;
+
+ExpressionRuleHead:
+	SingleTermRule | ExpressionRuleParenthesised;
+
+ExpressionRuleParenthesised:
+	"(" expression=ExpressionRule ")";
+
+Enum Operator:
+	Add="+" | Substract="-" | Multiply="*" | Divide = "/";
+
+
+// the conditional part:
+// TODO  ()'s would be useful, but also conflict with ()'s in expressions;
+// 		to make that work, combine the subgrammars (more precise:
+//		expression part subgrammar of Comparison part)
+//		and left-factor it.
+
+IfRule:
+	"IF" comparison=Comparison "THEN" then=ExpressionRule "ELSE" else=ExpressionRule;
+
+Comparison:
+	CompoundComparison | SimpleComparison;
+
+CompoundComparison:
+	AndComparison | OrComparison;
+
+AndComparison:
+	left=SimpleComparison "&" right=SimpleComparison;
+
+OrComparison:
+	left=SimpleComparison "|" right=SimpleComparison;
+
+SimpleComparison:
+	left=SingleTermRule operator=Comparator right=SingleTermRule;
+
+Enum Comparator:
+	Less="<" | More=">" | LessEqual="<=" | MoreEqual=">=" | Equal="="; 
+

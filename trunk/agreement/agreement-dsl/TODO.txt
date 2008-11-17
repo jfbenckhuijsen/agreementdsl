@@ -1,0 +1,4 @@
+1. get the grammar correct, especially w.r.t. formulas
+2. pimp the editor as much as is usefully possible
+3. provide concise comments
+4. expand the Accountant class
