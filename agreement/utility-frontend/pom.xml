@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>com.atosorigin.nl.dsl.agreement</groupId>
@@ -13,7 +12,10 @@
 	<name>Utility frontend</name>
 
 	<properties>
-		<flex.home>flex_sdk</flex.home><!-- Flex SDK (3) must be available at this location -->
+		<!--
+			Flex SDK (3) must be available at this location
+		-->
+		<flex.home>ENTER A VALUE HERE</flex.home>
 		<flex.src>flex_src</flex.src>
 		<flex.libs>${basedir}/flex_libs</flex.libs>
 		<web.dir>WebContent</web.dir>
@@ -25,28 +27,8 @@
 		<plugins>
 			<!--
 				Maven Plugin for Adobe Flex
-				http://www.israfil.net/projects/mojo/maven-flex2-plugin/index.html 
+				http://www.israfil.net/projects/mojo/maven-flex2-plugin/index.html
 			-->
-			<plugin>
-				<groupId>net.israfil.mojo</groupId>
-				<artifactId>maven-flex2-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<flexHome>${flex.home}</flexHome>
-					<source>${flex.src}</source>
-					<useNetwork>true</useNetwork>
-					<dataServicesConfig>
-						${web.dir}/WEB-INF/flex/services-config.xml
-					</dataServicesConfig>
-					<main>UtilityFrontend.mxml</main>
-					<extraParameters>
-						<parameter>
-							<name>context-root=/utility-frontend</name>
-						</parameter>
-					</extraParameters>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>
@@ -68,11 +50,87 @@
 			</plugin>
 
 			<plugin>
+				<groupId>net.israfil.mojo</groupId>
+				<artifactId>maven-flex2-plugin</artifactId>
+				<version>1.3</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id></id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile-swf</goal>
+						</goals>
+						<inherited>false</inherited>
+						<configuration>
+							<flexHome>${flex.home}</flexHome>
+							<source>${flex.src}</source>
+							<useNetwork>true</useNetwork>
+							<dataServicesConfig>
+								${web.dir}/WEB-INF/flex/services-config.xml
+							</dataServicesConfig>
+							<main>UtilityFrontend.mxml</main>
+							<extraParameters>
+								<parameter>
+									<name>context-root=/utility-frontend</name>
+								</parameter>
+							</extraParameters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<id></id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<inherited>false</inherited>
+						<configuration>
+							<tasks>
+								<mkdir dir="${project.build.directory}/swf" />
+								<copy file="${project.build.directory}/${artifactId}-${version}.swf"
+									todir="${project.build.directory}/swf" />
+
+								<taskdef className="flex.ant.HtmlWrapperTask" name="html-wrapper"
+									classpath="${flex.home}\ant\lib\flexTasks.jar" />
+								<property name="FLEX_HOME" value="${flex.home}" />
+								<property name="APP_ROOT" value="target/swf" />
+								<html-wrapper title="AgreementDSL Frontend" 
+									file="index.html"
+									height="700" width="1000" bgcolor="white" 
+									application="UtilityFrontend"
+									swf="${artifactId}-${version}" 
+									version-major="9" version-minor="0" version-revision="28" 
+									history="true" template="express-installation"
+									output="${APP_ROOT}" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.0</version>
 				<configuration>
-					<warSourceDirectory>/WebContent</warSourceDirectory>
+					<warSourceDirectory>${basedir}/WebContent</warSourceDirectory>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>${project.build.directory}/swf</directory>
+						</resource>
+						<resource>
+							<directory>${basedir}/flex_src</directory>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -91,6 +149,22 @@
 			<artifactId>utility-backend</artifactId>
 			<version>1.0</version>
 			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.adobe.flex</groupId>
+			<artifactId>flex-messaging-common</artifactId>
+			<version>3.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/WebContent/WEB-INF/lib/flex-messaging-common.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>org.adobe.flex</groupId>
+			<artifactId>flex-messaging-core</artifactId>
+			<version>3.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/WebContent/WEB-INF/lib/flex-messaging-core.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
