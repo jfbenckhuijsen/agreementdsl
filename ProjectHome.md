@@ -1,0 +1,1 @@
+This project hosts the code which implements the Agreement DSL thought up by Martin Fowler. This implementation is discussed in an article in the dutch magazine Java Magazine.
